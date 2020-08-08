@@ -190,6 +190,19 @@ class PrivXAPI(object):
             "Authorization": "Bearer {}".format(self._access_token),
         }
 
+    def _http_delete(self, urlname: str,
+                     path_params: dict = {}) -> http.client.HTTPResponse:
+
+        conn = self._get_connection()
+
+        conn.request(
+            "DELETE",
+            self._build_url(urlname, path_params),
+            headers=self._get_headers()
+        )
+
+        return conn.getresponse()
+
     def _http_get(self, urlname: str,
                   path_params: dict = {},
                   query_params: dict = {}) -> http.client.HTTPResponse:
@@ -284,6 +297,17 @@ class PrivXAPI(object):
         """
         response = self._http_put("hoststore.host",
                                   path_params={'host_id': host_id}, body=host)
+        return PrivXAPIResponse(response, 200)
+
+    def delete_host(self, host_id: str) -> PrivXAPIResponse:
+        """
+        Delete a host, see required fields from API docs.
+
+        Returns:
+            PrivxAPIResponse
+        """
+        response = self._http_delete("hoststore.host",
+                                     path_params={'host_id': host_id})
         return PrivXAPIResponse(response, 200)
 
     def get_hosts(self) -> PrivXAPIResponse:
