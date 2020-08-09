@@ -354,6 +354,17 @@ class PrivXAPI(object):
         response = self._http_post("rolestore.roles", body=role)
         return PrivXAPIResponse(response, 201)
 
+    def delete_role(self, role_id: str) -> PrivXAPIResponse:
+        """
+        Delete a role, see required fields from API docs.
+
+        Returns:
+            PrivxAPIResponse
+        """
+        response = self._http_delete("rolestore.roles",
+                                     path_params={'role_id': role_id})
+        return PrivXAPIResponse(response, 200)
+
     def get_roles(self) -> PrivXAPIResponse:
         """
         Get roles.
@@ -397,6 +408,17 @@ class PrivXAPI(object):
         """
         response = self._http_post("userstore.users", body=user)
         return PrivXAPIResponse(response, 201)
+
+    def delete_user(self, user_id: str) -> PrivXAPIResponse:
+        """
+        Delete a user, see required fields from API docs.
+
+        Returns:
+            PrivXAPIResponse
+        """
+        response = self._http_delete("userstore.users",
+                                     path_params={'user_id': user_id})
+        return PrivXAPIResponse(response, 200)
 
     #
     # Connection manager API.
